@@ -1,0 +1,117 @@
+ 一、核心概念與架構介紹
+這是 Virat Singh（virattt）建立的一個 Proof‑of‑Concept 專案，模擬一個由複數 AI agent 組成的對沖基金團隊，每個 agent 擅長不同投資策略，包括價值、成長、技術、情緒等。最後由 Portfolio Manager 做出整合決策。此系統僅供學習與模擬用途，不涉及真實交易 
+wire.insiderfinance.io
++11
+github.com
++11
+linkedin.com
++11
+。
+
+多 agent 架構：如 Ben Graham（價值投資）、Cathie Wood（成長投資）、Technical Agent（技術分析）、Sentiment Agent（市場情緒）、Risk Manager（風險控管）、Portfolio Manager（整合決策） 
+linkedin.com
++3
+anakin.ai
++3
+github.com
++3
+。
+
+可 Back‑test 歷史行情，模擬策略表現 
+apidog.com
++3
+anakin.ai
++3
+linkedin.com
++3
+。
+
+🛠 二、環境建置步驟
+1. 克隆程式庫
+bash
+複製
+編輯
+git clone https://github.com/virattt/ai-hedge-fund.git
+cd ai-hedge-fund
+2. 安裝依賴與配置工具
+使用 Poetry（推薦）：
+
+bash
+複製
+編輯
+curl -sSL https://install.python-poetry.org | python3 -
+poetry install
+或使用 Docker（選用，搭配本機 LLM）：
+
+bash
+複製
+編輯
+cd docker
+./run.sh build
+3. 設定環境變數
+bash
+複製
+編輯
+cp .env.example .env
+編輯 .env，填入：
+
+OPENAI_API_KEY — GPT‑4o 等模型
+
+FINANCIAL_DATASETS_API_KEY — 用於取得 AAPL、MSFT 等股票資料
+
+選填 GROQ_API_KEY, ANTHROPIC_API_KEY 等或本地 Ollama 模型設定 
+threads.com
++7
+github.com
++7
+apidog.com
++7
+
+4. （選用）Ollama 本地 LLM 運行
+bash
+複製
+編輯
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull llama3
+ollama serve
+此配置讓你可在無網環境下使用本模型進行運算。
+
+▶️ 三、執行與模擬交易
+A. 模擬交易策略
+bash
+複製
+編輯
+# 使用 Poetry
+poetry run python src/main.py --ticker AAPL,MSFT,NVDA
+# 使用本地 LLM
+poetry run python src/main.py --ticker AAPL,MSFT,NVDA --ollama
+# Docker 方式（在 docker/ 目錄下）
+./run.sh --ticker AAPL,MSFT,NVDA main
+系統會依據情緒、基本面、技術面，透過 Risk Manager 設定下單，Portfolio Manager 最終決策；在終端列印策略與原因
+arxiv.org
++4
+anakin.ai
++4
+github.com
++4
+github.com
++1
+apidog.com
++1
+。
+
+B. 回測歷史數據
+bash
+複製
+編輯
+poetry run python src/backtester.py --ticker AAPL,MSFT,NVDA \
+  --start-date 2024-01-01 --end-date 2024-03-01
+可調整回測日期、股票組合 。
+
+C. 額外參數：
+--show-reasoning：顯示各 agent 分析邏輯。
+
+可自由新增股票（如 TSLA、GOOGL），但需 Key。
+
+Docker 模式下命令統一在 docker/ 內運行。
+
