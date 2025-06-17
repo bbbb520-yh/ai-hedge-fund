@@ -2,7 +2,7 @@ name: Daily AI Analysis
 
 on:
   schedule:
-    - cron: '0 1 * * *'  # 每天台灣上午9點 (UTC+8 = UTC 1AM)
+    - cron: '1 4 * * *'  # 每天台灣晚上10點 (UTC+8 = UTC 1AM)
   workflow_dispatch:     # 可手動執行
 
 jobs:
